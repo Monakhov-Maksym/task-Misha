@@ -3,15 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { PostComponent } from './modules/post/pages/post/post.component';
-import { PostsComponent } from './modules/post/pages/posts/posts.component';
-import { ManagementComponent } from './modules/post/pages/management/management.component';
+import { PostListComponent } from './modules/post/pages/posts/post-list.component';
+import { PostManagementComponent } from './modules/post/pages/management/post-management.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostComponent,
-    PostsComponent,
-    ManagementComponent
+    PostListComponent,
+    PostManagementComponent
   ],
   imports: [
     BrowserModule
