@@ -15,4 +15,11 @@ export class PostService {
     })
     return this.postSubject.asObservable()
   }
+  createPost(postData: any): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/posts', postData)
+  }
+  updatePost(postId: number, postData: any): Observable<any>{
+    const url = `http://localhost:3000/posts/${postId}`
+    return this.http.patch<any>(url, postData)
+  }
 }

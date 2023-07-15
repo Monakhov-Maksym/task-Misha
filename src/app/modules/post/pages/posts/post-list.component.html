@@ -1,4 +1,21 @@
 <h1>Posts list</h1>
+
+<!-- Форма для создания или редактирования поста -->
+<form #postForm="ngForm" (ngSubmit)="createOrUpdatePost(postForm.value)">
+  <div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" [ngModel]="editingPost ? editingPost.title : ''" required>
+  </div>
+  <div>
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" [ngModel]="editingPost ? editingPost.content : ''" required></textarea>
+  </div>
+  <button type="submit">{{ editingPost ? 'Update Post' : 'Create Post' }}</button>
+</form>
+
 <ul>
-  <li *ngFor="let post of posts">{{post.title}}</li>
+  <li *ngFor="let post of posts">
+    <span>{{ post.title }}</span>
+    <button (click)="editingPost = post">Edit</button>
+  </li>
 </ul>

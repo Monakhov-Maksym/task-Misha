@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { PostComponent } from './modules/post/pages/post/post.component';
 import { PostListComponent } from './modules/post/pages/posts/post-list.component';
 import { PostManagementComponent } from './modules/post/pages/management/post-management.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -13,9 +14,10 @@ import { PostManagementComponent } from './modules/post/pages/management/post-ma
     PostListComponent,
     PostManagementComponent
   ],
-  imports: [
-    BrowserModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
