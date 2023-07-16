@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {PostService} from "../../services/post.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-posts',
@@ -28,19 +29,31 @@ export class PostListComponent implements OnInit{
   }
   createPost(postData: any) {
     this.postService.createPost(postData).subscribe(createdPost => {
-      this.posts.push(createdPost)
-      this.editingPost = null
-    })
+      this.posts.push(createdPost);
+      this.postService.getPosts().pipe(take(1)).subscribe(currentPosts => {
+        this.postService.getPosts().next([...currentPosts, createdPost]);
+      });
+      this.editingPost = null;
+    });
   }
 
   updatePost(postData: any) {
-    const postId = this.editingPost.id
+    const postId = this.editingPost.id;
     this.postService.updatePost(postId, postData).subscribe(updatedPost => {
-      const postIndex = this.posts.findIndex(post => post.id === postId)
+      const postIndex = this.posts.findIndex(post => post.id === postId);
       if (postIndex !== -1) {
-        this.posts[postIndex] = { ...this.posts[postIndex], ...updatedPost }
-        this.editingPost = null
+        this.posts[postIndex] = { ...this.posts[postIndex], ...updatedPost };
+        this.postService.getPosts().pipe(take(1)).subscribe(currentPosts => {
+          const updatedPosts = currentPosts.map(post => {
+            if (post.id === postId) {
+              return { ...post, ...updatedPost };
+            }
+            return post;
+          });
+          this.postService.getPosts().next(updatedPosts);
+        });
+        this.editingPost = null;
       }
-    })
+    });
   }
 }
