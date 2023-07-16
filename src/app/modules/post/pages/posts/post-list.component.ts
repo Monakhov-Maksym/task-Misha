@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {PostService} from "../../services/post.service";
 
@@ -8,6 +8,7 @@ import {PostService} from "../../services/post.service";
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit{
+  @Input() postData: any
   posts!: any[]
   editingPost: any = null
 
@@ -20,23 +21,26 @@ export class PostListComponent implements OnInit{
   }
   createOrUpdatePost(postData: any){
     if(this.editingPost) {
-      this.updatePost(this.editingPost.id, postData)
+      this.updatePost(postData)
     } else {
       this.createPost(postData)
     }
   }
-  createPost(postData: any){
-    this.postService.createPost(postData).subscribe(() => {
-      this.postService.getPosts().subscribe(posts => {
-        this.posts = posts
-      })
+  createPost(postData: any) {
+    this.postService.createPost(postData).subscribe(createdPost => {
+      this.posts.push(createdPost)
+      this.editingPost = null
     })
   }
-  updatePost(postId: number, postData: any){
-    this.postService.updatePost(postId, postData).subscribe(() => {
-      this.postService.getPosts().subscribe(posts=>{
-        this.posts = posts
-      })
+
+  updatePost(postData: any) {
+    const postId = this.editingPost.id
+    this.postService.updatePost(postId, postData).subscribe(updatedPost => {
+      const postIndex = this.posts.findIndex(post => post.id === postId)
+      if (postIndex !== -1) {
+        this.posts[postIndex] = { ...this.posts[postIndex], ...updatedPost }
+        this.editingPost = null
+      }
     })
   }
 }
