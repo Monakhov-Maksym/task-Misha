@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  private postSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  public postSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
     constructor(private http: HttpClient) {}
 
-  getPosts(): BehaviorSubject<any[]> {
-    this.http.get<any[]>('http://localhost:3000/posts').subscribe(posts => {
-      this.postSubject.next(posts)
-    })
-    return this.postSubject
+  getPosts(): Observable<void> {
+   return   this.http.get<any[]>('http://localhost:3000/posts').pipe(map((posts ) => this.postSubject.next(posts)))
   }
   createPost(postData: any): Observable<any> {
     return this.http.post<any>('http://localhost:3000/posts', postData)

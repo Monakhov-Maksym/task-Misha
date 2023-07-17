@@ -13,11 +13,15 @@ export class PostListComponent implements OnInit{
   posts!: any[]
   editingPost: any = null
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService) {
+    this.postService.getPosts().subscribe()
+  }
 
   ngOnInit() {
-    this.postService.getPosts().subscribe(posts => {
+    console.log(this.postService.postSubject)
+    this.postService.postSubject.subscribe(posts => {
       this.posts = posts;
+
     })
   }
   createOrUpdatePost(postData: any){
@@ -31,7 +35,7 @@ export class PostListComponent implements OnInit{
     this.postService.createPost(postData).subscribe(createdPost => {
       this.posts.push(createdPost);
       this.postService.getPosts().pipe(take(1)).subscribe(currentPosts => {
-        this.postService.getPosts().next([...currentPosts, createdPost]);
+
       });
       this.editingPost = null;
     });
@@ -44,13 +48,13 @@ export class PostListComponent implements OnInit{
       if (postIndex !== -1) {
         this.posts[postIndex] = { ...this.posts[postIndex], ...updatedPost };
         this.postService.getPosts().pipe(take(1)).subscribe(currentPosts => {
-          const updatedPosts = currentPosts.map(post => {
-            if (post.id === postId) {
-              return { ...post, ...updatedPost };
-            }
-            return post;
-          });
-          this.postService.getPosts().next(updatedPosts);
+          // const updatedPosts = currentPosts.map(post => {
+          //   if (post.id === postId) {
+          //     return { ...post, ...updatedPost };
+          //   }
+          //   return post;
+          // });
+
         });
         this.editingPost = null;
       }
