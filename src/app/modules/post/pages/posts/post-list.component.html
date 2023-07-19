@@ -1,13 +1,15 @@
 <h1>Posts list</h1>
 
 <form #postForm="ngForm" (ngSubmit)="createOrUpdatePost(postForm.value)">
-  <div>
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" [ngModel]="editingPost ? editingPost.title : ''" required>
-  </div>
-  <div>
-    <label for="content">Content:</label>
-    <textarea id="content" name="content" [ngModel]="editingPost ? editingPost.content : ''" required></textarea>
+  <div class="form-container text-center border">
+    <mat-form-field>
+      <mat-label>Title:</mat-label>
+      <input matInput type="text" name="title" [ngModel]="editingPost && editingPost.title" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Content:</mat-label>
+      <textarea matInput name="content" [ngModel]="editingPost && editingPost.content" required></textarea>
+    </mat-form-field>
   </div>
   <button type="submit">{{ editingPost ? 'Update Post' : 'Create Post' }}</button>
 </form>

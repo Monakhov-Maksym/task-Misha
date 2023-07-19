@@ -1,0 +1,9 @@
+.form-container {
+  margin: 0 auto;
+  width: 50%; /* Можете изменить этот размер на свое усмотрение */
+  padding: 20px;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -2,11 +2,17 @@ import {Component, Input, OnInit} from '@angular/core';
 
 import {PostService} from "../../services/post.service";
 import {take} from "rxjs";
+import {FormsModule} from "@angular/forms";
+import { MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-posts',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.css']
+  styleUrls: ['./post-list.component.css'],
+  standalone: true,
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, NgForOf]
 })
 export class PostListComponent implements OnInit{
   @Input() postData: any
